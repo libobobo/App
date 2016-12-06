@@ -46,6 +46,7 @@ public class RightToLeftTextView extends View {
     private void init() {
         map = new HashMap<>();
         mPaint = new Paint();
+        mPaint.setTextSize(50);
         text = "正在加载...";
         WindowManager wm = (WindowManager) getContext()
                 .getSystemService(Context.WINDOW_SERVICE);
@@ -74,8 +75,7 @@ public class RightToLeftTextView extends View {
         for (int i = 0; i < text.length(); i++) {
             animator1 = ValueAnimator.ofInt(250 * i, 50 * i);
             final int y = i;
-            animator1.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-
+            animator1.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {//不开始执行动画不会走此方法
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
                     int dx = (int) animation.getAnimatedValue();
@@ -83,24 +83,24 @@ public class RightToLeftTextView extends View {
                     postInvalidate();
                 }
             });
+            animator1.setDuration(3000);
+            animator1.setRepeatMode(ValueAnimator.RESTART);
+            animator1.setRepeatCount(ValueAnimator.INFINITE);
+            animator1.setInterpolator(new TimeInterpolator() {
+                @Override
+                public float getInterpolation(float v) {
+                    return v;
+                }
+            });
+            animator1.setEvaluator(new IntEvaluator());
+            animator1.start();
         }
-        animator1.setDuration(3000);
-        animator1.setRepeatMode(ValueAnimator.RESTART);
-        animator1.setRepeatCount(ValueAnimator.INFINITE);
-        animator1.setInterpolator(new TimeInterpolator() {
-            @Override
-            public float getInterpolation(float v) {
-                return v;
-            }
-        });
-        animator1.setEvaluator(new IntEvaluator());
-        animator1.start();
     }
 
     @Override
     public void onDraw(final Canvas canvas) {
         super.onDraw(canvas);
-        mPaint.setTextSize(50);
+
         for (int i = 0; i < text.length(); i++) {
             canvas.drawText(text.charAt(i) + "", width - dy + map.get(i), 70, mPaint);
         }
