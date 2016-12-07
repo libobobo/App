@@ -10,10 +10,12 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PathMeasure;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 
 import com.loadingtext.demo.R;
+import com.loadingtext.demo.utils.DensityUtil;
 
 /**
  * 文字跳动  利用二阶贝塞尔曲线 起点和终点相同 控制点为高度的一半
@@ -56,6 +58,8 @@ public class JumpTextView extends View {
             text = "Hello word";
         }
         mTextSize = typedArray.getFloat(R.styleable.JumpTextView_textSize, 20);
+        mTextSize = 140;
+        mTextSize = DensityUtil.px2dip(mContext, mTextSize);
         typedArray.recycle();
         init();
     }
@@ -67,11 +71,19 @@ public class JumpTextView extends View {
         mPath = new Path();
     }
 
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        PlayAnimator();
+
+    }
+
     private void PlayAnimator() {
         if (i < text.length()) {
             mPath.moveTo(mTextSize * i, mTextSize);//起点
-            mPath.quadTo(mTextSize * i, mTextSize / 2, mTextSize * i, mTextSize);//25 表示向上跳动字体的一半大小
+            mPath.quadTo(mTextSize * i, mTextSize / 2, mTextSize * i, mTextSize);
             mPathMeasure = new PathMeasure(mPath, false);
+
             ValueAnimator animator = ValueAnimator.ofFloat(0, mPathMeasure.getLength());
             animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
@@ -119,6 +131,7 @@ public class JumpTextView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+
         int paddingLeft = getPaddingLeft();
         int paddingTop = getPaddingTop();
         for (int j = 0; j < text.length(); j++) {
@@ -129,13 +142,6 @@ public class JumpTextView extends View {
             canvas.drawText(text.charAt(i) + "", mCurrentPosition[0] + paddingLeft, mCurrentPosition[1] + paddingTop, mPaint);//画曲线中间点坐标
         }
     }
-
-    @Override
-    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        super.onLayout(changed, left, top, right, bottom);
-        PlayAnimator();
-    }
-
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
@@ -144,11 +150,17 @@ public class JumpTextView extends View {
         int heightmode = MeasureSpec.getMode(heightMeasureSpec);
         int heightsize = MeasureSpec.getSize(heightMeasureSpec);
         if (widthmode == MeasureSpec.AT_MOST && heightmode == MeasureSpec.AT_MOST) {
-            setMeasuredDimension((int) mTextSize * text.length() + getPaddingLeft() + getPaddingRight(), (int) mTextSize + 8 + getPaddingTop() + getPaddingBottom());
+            setMeasuredDimension((int) mTextSize * text.length() + getPaddingLeft() + getPaddingRight(), (int) mTextSize + getPaddingTop() + getPaddingBottom() +  DensityUtil.px2dip(mContext, 36));
         } else if (widthmode == MeasureSpec.AT_MOST) {
             setMeasuredDimension((int) mTextSize * text.length() + getPaddingLeft() + getPaddingRight(), heightsize);
         } else if (heightmode == MeasureSpec.AT_MOST) {
-            setMeasuredDimension(widthsize, (int) mTextSize + 8 + getPaddingTop() + getPaddingBottom());
+            setMeasuredDimension(widthsize, (int) mTextSize + getPaddingTop() + getPaddingBottom() + DensityUtil.px2dip(mContext, 36));
         }
+    }
+
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
+        Log.i("pppppp", "onLayout: ----------------");
     }
 }

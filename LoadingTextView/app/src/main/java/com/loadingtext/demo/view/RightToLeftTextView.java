@@ -13,11 +13,12 @@ import android.view.View;
 import android.view.WindowManager;
 
 import com.loadingtext.demo.R;
+import com.loadingtext.demo.utils.DensityUtil;
 
 import java.util.HashMap;
 
 /**
- * 每个字由屏幕右侧做位移  每个字间的间隔设为250 * 字的个数 在缩小至字体大小 * 个数
+ * 每个字由屏幕右侧做位移  每个字间的间隔设为500 * 字的个数 在缩小至字体大小 * 个数
  * Created by：shaobo
  * on 2016/12/5 13:39
  */
@@ -33,15 +34,17 @@ public class RightToLeftTextView extends View {
     private ValueAnimator animator;
     private int color;
     private float mTextSize;
-
+    private Context mContext;
 
     public RightToLeftTextView(Context context) {
         super(context);
+        mContext = context.getApplicationContext();
         init();
     }
 
     public RightToLeftTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        mContext = context.getApplicationContext();
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.JumpTextView);
         color = typedArray.getColor(R.styleable.JumpTextView_textColor, Color.BLACK);
         text = typedArray.getString(R.styleable.JumpTextView_text);
@@ -49,12 +52,14 @@ public class RightToLeftTextView extends View {
             text = "Hello word";
         }
         mTextSize = typedArray.getFloat(R.styleable.JumpTextView_textSize, 20);
+        mTextSize = DensityUtil.px2dip(mContext, mTextSize);
         typedArray.recycle();
         init();
     }
 
     public RightToLeftTextView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
+        mContext = context.getApplicationContext();
         init();
     }
 
@@ -88,7 +93,7 @@ public class RightToLeftTextView extends View {
         animator.start();
 
         for (int i = 0; i < text.length(); i++) {
-            animator1 = ValueAnimator.ofInt(250 * i, (int) mTextSize * i);
+            animator1 = ValueAnimator.ofInt( DensityUtil.px2dip(mContext,500) * i, (int) mTextSize * i);
             final int y = i;
             animator1.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {//不开始执行动画不会走此方法
                 @Override
@@ -130,9 +135,9 @@ public class RightToLeftTextView extends View {
         int heightmode = MeasureSpec.getMode(heightMeasureSpec);
         int heightsize = MeasureSpec.getSize(heightMeasureSpec);
         if (widthmode == MeasureSpec.AT_MOST && heightmode == MeasureSpec.AT_MOST) {
-            setMeasuredDimension((int) mTextSize * text.length() + getPaddingLeft() + getPaddingRight(), (int) mTextSize + 8 + getPaddingTop() + getPaddingBottom());
+            setMeasuredDimension((int) mTextSize * text.length() + getPaddingLeft() + getPaddingRight(), (int) mTextSize + getPaddingTop() + getPaddingBottom());
         } else if (heightmode == MeasureSpec.AT_MOST) {
-            setMeasuredDimension(widthsize, (int) mTextSize + 8 + getPaddingTop() + getPaddingBottom());
+            setMeasuredDimension(widthsize, (int) mTextSize  + getPaddingTop() + getPaddingBottom()+ DensityUtil.px2dip(mContext, 36));
         }
     }
 

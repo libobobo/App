@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.animation.LinearInterpolator;
 
 import com.loadingtext.demo.R;
+import com.loadingtext.demo.utils.DensityUtil;
 
 import java.util.HashMap;
 
@@ -33,28 +34,29 @@ public class ParabolicTextView extends View {
     private PathMeasure mPathMeasure;
     // 贝塞尔曲线中间过程点坐标
     private float[] mCurrentPosition = new float[2];
-
-
     private ValueAnimator animator;
     private int i;
     //记录最终坐标点
     private HashMap<Integer, Point> endloc;
     private int color;
     private float mTextSize;
-
+    private Context mContext;
 
     public ParabolicTextView(Context context) {
         super(context);
+        mContext = context.getApplicationContext();
         init();
     }
 
     public ParabolicTextView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
+        mContext = context.getApplicationContext();
         init();
     }
 
     public ParabolicTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        mContext = context.getApplicationContext();
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.JumpTextView);
         color = typedArray.getColor(R.styleable.JumpTextView_textColor, Color.BLACK);
         text = typedArray.getString(R.styleable.JumpTextView_text);
@@ -62,6 +64,7 @@ public class ParabolicTextView extends View {
             text = "Hello word";
         }
         mTextSize = typedArray.getFloat(R.styleable.JumpTextView_textSize, 40);
+        mTextSize = DensityUtil.px2dip(mContext, mTextSize);
         typedArray.recycle();
         init();
     }
@@ -76,7 +79,7 @@ public class ParabolicTextView extends View {
     private void PlayAnimator() {
         if (i < text.length()) {
             mPath.moveTo(0, 0);//起点
-            mPath.quadTo((mTextSize * i) / 2, 0, mTextSize * i, mTextSize + 300);
+            mPath.quadTo((mTextSize * i) / 2, 0, mTextSize * i, mTextSize + DensityUtil.px2dip(mContext, 300));
             mPathMeasure = new PathMeasure(mPath, false);
             animator = ValueAnimator.ofFloat(0, mPathMeasure.getLength());
             animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -111,7 +114,6 @@ public class ParabolicTextView extends View {
                         endloc.clear();//清空集合，从新来过
                     }
                     mPath.reset();
-                    mPath.moveTo(0, 0);
                     PlayAnimator();
 
                 }
@@ -153,17 +155,17 @@ public class ParabolicTextView extends View {
         int heightmode = MeasureSpec.getMode(heightMeasureSpec);
         int heightsize = MeasureSpec.getSize(heightMeasureSpec);
         if (widthmode == MeasureSpec.AT_MOST && heightmode == MeasureSpec.AT_MOST) {
-            setMeasuredDimension((int) mTextSize * text.length() + getPaddingLeft() + getPaddingRight(), (int) mTextSize + 8 + getPaddingTop() + getPaddingBottom()+300);
+            setMeasuredDimension((int) mTextSize * text.length() + getPaddingLeft() + getPaddingRight(), (int) mTextSize + getPaddingTop() + getPaddingBottom() +  DensityUtil.px2dip(mContext, 300));
         } else if (widthmode == MeasureSpec.AT_MOST) {
             setMeasuredDimension((int) mTextSize * text.length() + getPaddingLeft() + getPaddingRight(), heightsize);
         } else if (heightmode == MeasureSpec.AT_MOST) {
-            setMeasuredDimension(widthsize, (int) mTextSize + 8 + getPaddingTop() + getPaddingBottom()+300);
+            setMeasuredDimension(widthsize, (int) mTextSize + getPaddingTop() + getPaddingBottom() +  DensityUtil.px2dip(mContext, 300));
         }
     }
 
     @Override
-    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        super.onLayout(changed, left, top, right, bottom);
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
         PlayAnimator();
     }
 }

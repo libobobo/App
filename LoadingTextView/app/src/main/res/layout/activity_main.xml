@@ -24,15 +24,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:text="我是会跳动的文字"
-        app:textSize="50" />
+        app:textSize="120" />
 
     <com.loadingtext.demo.view.RightToLeftTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:text="我是会移动的文字"
-        app:textSize="50" />
+        app:textSize="120" />
 
     <com.loadingtext.demo.view.ParabolicTextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        app:textSize="120"
+        />
 </LinearLayout>

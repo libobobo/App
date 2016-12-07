@@ -7,6 +7,8 @@ import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.animation.LinearInterpolator;
 
+import com.loadingtext.demo.utils.DensityUtil;
+
 /**
  * 在textview 上画上一成和文字长宽相同且与背景颜色相同的矩形，不断改变矩形宽度已达到目的
  * Created by：shaobo
@@ -17,19 +19,22 @@ public class OneByOneTextView extends LoadingTextView {
     private int width;
     private int dy;
     private float textSize;
-
+    private Context mContext;
     public OneByOneTextView(Context context) {
         super(context);
+        mContext = context.getApplicationContext();
         init();
     }
 
     public OneByOneTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        mContext = context.getApplicationContext();
         init();
     }
 
     public OneByOneTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        mContext = context.getApplicationContext();
         init();
     }
 
@@ -44,7 +49,7 @@ public class OneByOneTextView extends LoadingTextView {
         mPaint.setColor(Color.WHITE);
         int paddingLeft = getPaddingLeft();
         int paddingTop = getPaddingTop();
-        canvas.drawRect(dy + paddingLeft, 0 + paddingTop, width+ paddingLeft, (int) textSize + 8, mPaint);
+        canvas.drawRect(dy + paddingLeft, 0 + paddingTop, width+ paddingLeft, (int) textSize + DensityUtil.px2dip(mContext,36), mPaint);
     }
 
     @Override
