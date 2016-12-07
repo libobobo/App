@@ -9,11 +9,12 @@ import android.graphics.Shader;
 import android.util.AttributeSet;
 
 
-/**闪动文字
+/**
+ * 闪动文字
  * Created by：shaobo
  * on 2016/12/5 10:54
  */
-public class ShimmerTextView extends LoadingTextView{
+public class ShimmerTextView extends LoadingTextView {
     private int mDx;
     private LinearGradient mLinearGradient;
 
@@ -32,7 +33,7 @@ public class ShimmerTextView extends LoadingTextView{
     @Override
     public void MyDraw(Canvas canvas) {
         Matrix matrix = new Matrix();
-        matrix.setTranslate(mDx, 0);
+        matrix.setTranslate(mDx, 0);//设置位移矩阵
         mLinearGradient.setLocalMatrix(matrix);
         mPaint.setShader(mLinearGradient);
     }

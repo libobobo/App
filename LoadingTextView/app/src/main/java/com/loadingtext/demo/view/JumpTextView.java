@@ -16,6 +16,8 @@ import android.view.animation.LinearInterpolator;
 import com.loadingtext.demo.R;
 
 /**
+ * 文字跳动  利用二阶贝塞尔曲线 起点和终点相同 控制点为高度的一半
+ * 利用动画和路径测量中得到运动轨迹
  * Created by：shaobo
  * on 2016/12/6 14:10
  */

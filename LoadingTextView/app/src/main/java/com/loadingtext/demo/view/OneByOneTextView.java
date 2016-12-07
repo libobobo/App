@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 import android.view.animation.LinearInterpolator;
 
 /**
+ * 在textview 上画上一成和文字长宽相同且与背景颜色相同的矩形，不断改变矩形宽度已达到目的
  * Created by：shaobo
  * on 2016/12/5 11:24
  */
@@ -41,7 +42,9 @@ public class OneByOneTextView extends LoadingTextView {
     @Override
     public void MyDraw(Canvas canvas) {
         mPaint.setColor(Color.WHITE);
-        canvas.drawRect(dy, 0, width, (int) textSize + 8, mPaint);
+        int paddingLeft = getPaddingLeft();
+        int paddingTop = getPaddingTop();
+        canvas.drawRect(dy + paddingLeft, 0 + paddingTop, width+ paddingLeft, (int) textSize + 8, mPaint);
     }
 
     @Override

@@ -17,6 +17,7 @@ import com.loadingtext.demo.R;
 import java.util.HashMap;
 
 /**
+ * 每个字由屏幕右侧做位移  每个字间的间隔设为250 * 字的个数 在缩小至字体大小 * 个数
  * Created by：shaobo
  * on 2016/12/5 13:39
  */

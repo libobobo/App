@@ -19,7 +19,9 @@ import com.loadingtext.demo.R;
 import java.util.HashMap;
 
 /**
- * 抛物线
+ * 抛物线 同样利用二阶贝塞尔曲线完成 起点为（0,0） 终点为每个字的横坐标纵坐标 控制点选为横坐标的一半
+ * 纵坐标和起点相同
+ * 利用动画和路径测量中得到运动轨迹
  * Created by：shaobo
  * on 2016/12/5 19:11
  */
