@@ -15,6 +15,7 @@
     <com.loadingtext.demo.view.OneByOneTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
         android:paddingLeft="15dp"
         android:text="你猜我是谁"
         android:textSize="20dp" />
@@ -23,18 +24,28 @@
     <com.loadingtext.demo.view.JumpTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
         app:text="我是会跳动的文字"
         app:textSize="120" />
 
     <com.loadingtext.demo.view.RightToLeftTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
         app:text="我是会移动的文字"
         app:textSize="120" />
 
     <com.loadingtext.demo.view.ParabolicTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:textSize="120"
-        />
+        android:layout_marginTop="15dp"
+        app:textSize="120" />
+
+    <com.loadingtext.demo.view.FlashingView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        app:text="逐个改变字体大小" />
 </LinearLayout>
